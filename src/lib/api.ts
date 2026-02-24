@@ -34,24 +34,25 @@ export const authAPI = {
     }),
   register: (data: { username: string; email: string; password: string; interests: string[] }) =>
     api.post("/auth/register", data),
-  me: () => api.get("/auth/me"),
+  me: () => api.get("/users/me"),
 };
 
 // Curiosities
 export const curiositiesAPI = {
-  getDaily: () => api.get("/curiosities/daily"),
-  getHistory: (skip = 0, limit = 30) => api.get(`/curiosities/history?skip=${skip}&limit=${limit}`),
+  getDaily: () => api.get("/feed/daily"),
+  getHistory: (skip = 0, limit = 30) => api.get(`/curiosities/history/me?skip=${skip}&limit=${limit}`),
+  getCuriosity: (id: number) => api.get(`/curiosities/${id}`),
   search: (query: string) => api.get(`/curiosities/search?q=${query}`),
   like: (id: number) => api.post(`/curiosities/${id}/like`),
   unlike: (id: number) => api.delete(`/curiosities/${id}/like`),
   getComments: (id: number) => api.get(`/curiosities/${id}/comments`),
-  addComment: (id: number, content: string) => api.post(`/curiosities/${id}/comments`, { content }),
+  addComment: (id: number, content: string) => api.post(`/curiosities/${id}/comments`, { text: content }),
 };
 
 // Social
 export const socialAPI = {
-  getFeed: () => api.get("/social/feed"),
-  follow: (userId: number) => api.post(`/social/follow/${userId}`),
+  getFeed: () => api.get("/feed/social"),
+  follow: (userName: string) => api.post(`/users/${userName}/follow`),
   unfollow: (userId: number) => api.delete(`/social/follow/${userId}`),
   getFollowers: (userId: number) => api.get(`/social/followers/${userId}`),
   getFollowing: (userId: number) => api.get(`/social/following/${userId}`),
@@ -59,7 +60,7 @@ export const socialAPI = {
 
 // Users
 export const usersAPI = {
-  getProfile: (userId: number) => api.get(`/users/${userId}`),
+  getProfileByUsername: (userName: string) => api.get(`/users/${userName}`),
   searchUsers: (query: string) => api.get(`/users/search?q=${query}`),
 };
 

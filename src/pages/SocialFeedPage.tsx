@@ -46,9 +46,9 @@ export default function SocialFeedPage() {
           <div className="space-y-4">
             {items.map((item, i) => (
               <CuriosityCard
-                key={`${item.curiosity.id}-${i}`}
-                curiosity={item.curiosity}
-                likedBy={item.liked_by.username}
+                key={`${item.id}-${i}`}
+                curiosityId={item.id}
+                likedBy={item.actor_username}
               />
             ))}
           </div>

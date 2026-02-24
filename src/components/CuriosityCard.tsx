@@ -1,38 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
-import { Curiosity } from "@/lib/types";
+import { Curiosity, SocialFeedItem } from "@/lib/types";
 import { curiositiesAPI } from "@/lib/api";
 import { toast } from "@/hooks/use-toast";
 import { CommentSection } from "./CommentSection";
 import { cn } from "@/lib/utils";
 
 const DIFFICULTY_COLORS: Record<string, string> = {
-  easy: "bg-success/10 text-success border-success/20",
-  medium: "bg-warning/10 text-warning border-warning/20",
-  hard: "bg-destructive/10 text-destructive border-destructive/20",
+  fácil: "bg-success/10 text-success border-success/20",
+  médio: "bg-warning/10 text-warning border-warning/20",
+  difícil: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
 const DIFFICULTY_LABELS: Record<string, string> = {
-  easy: "Fácil",
-  medium: "Médio",
-  hard: "Difícil",
+  fácil: "Fácil",
+  médio: "Médio",
+  difícil: "Difícil",
 };
 
 interface Props {
-  curiosity: Curiosity;
+  curiosity?: Curiosity;
+  curiosityId?: number;
   likedBy?: string;
   onUpdate?: () => void;
 }
 
-export function CuriosityCard({ curiosity, likedBy, onUpdate }: Props) {
-  const [liked, setLiked] = useState(curiosity.is_liked);
-  const [likesCount, setLikesCount] = useState(curiosity.likes_count);
+export function CuriosityCard({ curiosity: initialCuriosity, curiosityId, likedBy, onUpdate }: Props) {
+  const [curiosity, setCuriosity] = useState<Curiosity | undefined>(initialCuriosity);
+  const [liked, setLiked] = useState(curiosity?.is_liked);
+  const [likesCount, setLikesCount] = useState(curiosity?.likes_count || 0);
+
+  useEffect(() => {
+    if (curiosityId && !initialCuriosity) {
+      const fetchCuriosity = async () => {
+        const response = await curiositiesAPI.getCuriosity(curiosityId);
+        setCuriosity(response.data);
+      };
+      fetchCuriosity();
+    }
+  }, [curiosityId, initialCuriosity]);
   const [showComments, setShowComments] = useState(false);
   const [likeAnimating, setLikeAnimating] = useState(false);
+
+  if (!curiosity) return null;
 
   const handleLike = async () => {
     try {

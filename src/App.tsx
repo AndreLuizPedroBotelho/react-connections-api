@@ -27,7 +27,7 @@ const App = () => (
             <Route path="/" element={<ProtectedRoute><FeedPage /></ProtectedRoute>} />
             <Route path="/social" element={<ProtectedRoute><SocialFeedPage /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-            <Route path="/profile/:userId" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path="/profile/:username" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

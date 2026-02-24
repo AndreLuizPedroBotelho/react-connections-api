@@ -61,12 +61,12 @@ export function CommentSection({ curiosityId }: Props) {
       {comments.map((comment) => (
         <div key={comment.id} className="rounded-lg bg-muted/50 p-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">@{comment.user.username}</span>
+            <span className="text-sm font-medium">@{comment.username}</span>
             <span className="text-xs text-muted-foreground">
               {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true, locale: ptBR })}
             </span>
           </div>
-          <p className="mt-1 text-sm">{comment.content}</p>
+          <p className="mt-1 text-sm">{comment.text}</p>
         </div>
       ))}
 

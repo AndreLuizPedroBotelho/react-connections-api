@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import { UserPlus, UserMinus, Users } from "lucide-react";
 
 export default function ProfilePage() {
-  const { userId } = useParams();
+  const { username } = useParams();
   const { user: currentUser } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [followers, setFollowers] = useState<{ id: number; username: string }[]>([]);
@@ -21,21 +21,21 @@ export default function ProfilePage() {
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
 
-  const isOwnProfile = !userId || Number(userId) === currentUser?.id;
-  const targetId = userId ? Number(userId) : currentUser?.id;
+  const isOwnProfile = !username || username === currentUser?.username;
+  const targetUsername = username ? username : currentUser?.username;
 
   const fetchProfile = async () => {
-    if (!targetId) return;
+    if (!targetUsername) return;
     setLoading(true);
     try {
-      const res = await usersAPI.getProfile(targetId);
+      const res = await usersAPI.getProfileByUsername(targetUsername);
       setProfile(res.data);
-      const [fRes, gRes] = await Promise.all([
-        socialAPI.getFollowers(targetId),
-        socialAPI.getFollowing(targetId),
-      ]);
-      setFollowers(fRes.data);
-      setFollowing(gRes.data);
+      // const [fRes, gRes] = await Promise.all([
+      //   socialAPI.getFollowers(targetId),
+      //   socialAPI.getFollowing(targetId),
+      // ]);
+      // setFollowers(fRes.data);
+      // setFollowing(gRes.data);
     } catch {
       setProfile(null);
     } finally {
@@ -45,7 +45,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetchProfile();
-  }, [targetId]);
+  }, [targetUsername]);
 
   const handleFollow = async () => {
     if (!profile) return;
@@ -54,7 +54,7 @@ export default function ProfilePage() {
         await socialAPI.unfollow(profile.id);
         toast({ title: `Você deixou de seguir @${profile.username}` });
       } else {
-        await socialAPI.follow(profile.id);
+        await socialAPI.follow(profile.username);
         toast({ title: `Você agora segue @${profile.username}! 🎉` });
       }
       fetchProfile();

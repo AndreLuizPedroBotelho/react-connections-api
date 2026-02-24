@@ -3,10 +3,9 @@ import { curiositiesAPI } from "@/lib/api";
 import { Curiosity } from "@/lib/types";
 import { CuriosityCard } from "@/components/CuriosityCard";
 import { Navbar } from "@/components/Navbar";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Search, Sparkles, History } from "lucide-react";
+import { Sparkles, History } from "lucide-react";
 import { motion } from "framer-motion";
 
 const CATEGORIES = [
@@ -47,6 +46,7 @@ export default function FeedPage() {
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       showHistory ? fetchHistory() : fetchDaily();
       return;
     }
@@ -90,19 +90,6 @@ export default function FeedPage() {
             >
               {showHistory ? <Sparkles className="h-4 w-4" /> : <History className="h-4 w-4" />}
               {showHistory ? "Hoje" : "Histórico"}
-            </Button>
-          </div>
-
-          <div className="flex gap-2 mb-4">
-            <Input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar curiosidades..."
-              className="flex-1"
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            />
-            <Button size="icon" onClick={handleSearch}>
-              <Search className="h-4 w-4" />
             </Button>
           </div>
 

@@ -13,11 +13,8 @@ export interface Curiosity {
 
 export interface Comment {
   id: number;
-  content: string;
-  user: {
-    id: number;
-    username: string;
-  };
+  text: string;
+  username: string;
   created_at: string;
 }
 
@@ -32,9 +29,13 @@ export interface UserProfile {
 }
 
 export interface SocialFeedItem {
-  curiosity: Curiosity;
-  liked_by: {
-    id: number;
-    username: string;
-  };
+  id: number;
+  title: string;
+  content: string;
+  category: string;
+  emoji: string;
+  likes_count: number;
+  actor_username: string;
+  action: string;
+  action_at: string;
 }
