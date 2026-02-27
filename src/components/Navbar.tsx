@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Compass, Users, User, LogOut, Menu, X } from "lucide-react";
+import { Sparkles, Compass, Users, User, LogOut, Menu, X, Brain } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +19,7 @@ export function Navbar() {
   const links = [
     { to: "/", label: "Feed Diário", icon: Compass },
     { to: "/social", label: "Feed Social", icon: Users },
+    { to: "/quiz", label: "Quiz", icon: Brain },
     { to: "/profile", label: "Perfil", icon: User },
   ];
 

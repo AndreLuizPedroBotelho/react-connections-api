@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import FeedPage from "./pages/FeedPage";
 import SocialFeedPage from "./pages/SocialFeedPage";
+import QuizPage from "./pages/QuizPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/" element={<ProtectedRoute><FeedPage /></ProtectedRoute>} />
             <Route path="/social" element={<ProtectedRoute><SocialFeedPage /></ProtectedRoute>} />
+            <Route path="/quiz" element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
             <Route path="/profile/:username" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
